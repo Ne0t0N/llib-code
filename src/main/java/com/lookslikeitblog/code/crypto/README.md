@@ -1,1 +1,0 @@
-Code for blog post at http://www.lookslikeitblog.com/blog/pages/cryptography-essentials

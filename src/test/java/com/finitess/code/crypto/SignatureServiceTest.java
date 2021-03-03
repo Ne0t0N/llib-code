@@ -1,11 +1,13 @@
-package com.lookslikeitblog.code.crypto;
+package com.finitess.code.crypto;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class SignatureServiceTest {
 
@@ -17,7 +19,7 @@ public class SignatureServiceTest {
         byte[] signedMessage = service.sign(message);
         boolean verificationOutcome = service.verify(message, signedMessage);
 
-        assertThat(verificationOutcome).isTrue();
+        assertTrue(verificationOutcome);
     }
 
     @Test
@@ -25,12 +27,9 @@ public class SignatureServiceTest {
         SignatureService service = new SignatureService(2048, "RSA");
         String message = "Hello signed world!!!";
 
-        boolean verificationOutcome = service.verify(message, aString(256).getBytes());
+        String aString = Stream.generate(() -> "a").limit(256).collect(Collectors.joining());
+        boolean verificationOutcome = service.verify(message, aString.getBytes());
 
-        assertThat(verificationOutcome).isFalse();
-    }
-
-    private static String aString(int length) {
-        return Stream.generate(() -> "a").limit(length).collect(Collectors.joining());
+        assertFalse(verificationOutcome);
     }
 }
